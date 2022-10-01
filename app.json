@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "admApp",
+    "slug": "admApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
