@@ -5,7 +5,7 @@ import { ButtonIcon } from "../ButtonIcon";
 import { useNavigation } from "@react-navigation/native";
 import { Product, ProductContext } from "../../context/ProductContext";
 
-import { ProductParams } from "../../@types/navigation";
+import { ProductParams, UpdateProductParams } from "../../@types/navigation";
 import { Alert, ToastAndroid } from "react-native";
 import axios from "axios";
 
@@ -43,6 +43,22 @@ export function GroupCard({ data }: Props) {
     });
   }
 
+  function handleOpenUpdateProduct({
+    id,
+    title,
+    description,
+    price,
+    stock,
+  }: UpdateProductParams) {
+    navigation.navigate("updateProduct", {
+      id,
+      title,
+      description,
+      price,
+      stock,
+    });
+  }
+
   async function handleScreenDeleteConfirmation(id: string) {
     Alert.alert(
       "Excluir Produto",
@@ -65,7 +81,7 @@ export function GroupCard({ data }: Props) {
 
       <Items>
         <ButtonIcon icon="eye" onPress={() => handleOpenProduct(data)} />
-        <ButtonIcon icon="edit" />
+        <ButtonIcon icon="edit" onPress={() => handleOpenUpdateProduct(data)} />
         <ButtonIcon
           icon="trash-2"
           type="SECONDARY"

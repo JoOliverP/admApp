@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useContext } from "react";
 import { Alert, ToastAndroid, View } from "react-native";
-import { ProductParams } from "../../@types/navigation";
+import { ProductParams, UpdateProductParams } from "../../@types/navigation";
 import { Button } from "../../components/Button";
 import { ButtonIcon } from "../../components/ButtonIcon";
 import { Header } from "../../components/Header";
@@ -40,6 +40,22 @@ export function Product() {
         ToastAndroid.SHORT
       );
     }
+  }
+
+  function handleOpenUpdateProduct({
+    id,
+    title,
+    description,
+    price,
+    stock,
+  }: UpdateProductParams) {
+    navigation.navigate("updateProduct", {
+      id,
+      title,
+      description,
+      price,
+      stock,
+    });
   }
 
   async function handleScreenDeleteConfirmation(id: string) {
@@ -90,7 +106,10 @@ export function Product() {
       <Description>{product.description}</Description>
 
       <ButtonsContainer>
-        <Button title="Alterar" />
+        <Button
+          title="Alterar"
+          onPress={() => handleOpenUpdateProduct(product)}
+        />
         <Button
           title="Excluir"
           type="SECONDARY"

@@ -17,19 +17,23 @@ import { ButtonIcon } from "../../components/ButtonIcon";
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { api } from "../../services/api";
+import { UpdateProductParams } from "../../@types/navigation";
 
-export function AddProduct() {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState("");
+export function UpdateProduct() {
+  const route = useRoute();
+  const product = route.params as UpdateProductParams;
+
+  const [name, setName] = useState(product.title);
+  const [price, setPrice] = useState(String(product.price));
+  const [description, setDescription] = useState(product.description);
+  const [quantity, setQuantity] = useState(String(product.stock));
 
   const navigation = useNavigation();
 
-  async function handleAddProduct() {
+  async function handleUpdateProduct() {
     const data = {
       name,
       description,
@@ -43,14 +47,14 @@ export function AddProduct() {
           "Content-Type": "application/json",
         },
       };
-      const response = await api.post(`/products/add`, data, axiosConfig);
+      const response = await api.put(
+        `/products/${product.id}`,
+        data,
+        axiosConfig
+      );
 
-      console.log(response);
-      ToastAndroid.show("Produto Adicionado com sucesso!", ToastAndroid.SHORT);
-      setName("");
-      setPrice("");
-      setDescription("");
-      setQuantity("");
+      ToastAndroid.show("Produto Alterado com sucesso!", ToastAndroid.SHORT);
+      navigation.goBack();
     } catch (err) {
       console.log(err);
     }
@@ -68,7 +72,7 @@ export function AddProduct() {
         <Container>
           <HeaderView>
             <ButtonIcon icon="arrow-left" onPress={handleGoBack} />
-            <Header title="Adicionar Produto" />
+            <Header title="Atualizar Produto" />
           </HeaderView>
 
           <FormContainer>
@@ -86,7 +90,7 @@ export function AddProduct() {
               <Input value={quantity} onChangeText={setQuantity} />
             </Fields>
             <ButtonsContainer>
-              <Button title="Adicionar" onPress={handleAddProduct} />
+              <Button title="Adicionar" onPress={handleUpdateProduct} />
               <Button
                 title="Cancelar"
                 type="SECONDARY"

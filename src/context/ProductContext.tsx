@@ -48,7 +48,7 @@ export function CadidatesContextProvider({
   async function handleDeleteProduct(id: string) {
     try {
       const response = await api.delete(`/products/${id}`, headers);
-      ToastAndroid.show("Produto deletado com sucesso!", ToastAndroid.SHORT);
+      ToastAndroid.show("Produto exluído com sucesso!", ToastAndroid.SHORT);
       console.log(response.data);
     } catch (err) {
       console.log(err);
