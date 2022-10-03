@@ -1,9 +1,11 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { View } from "react-native";
+import { useContext } from "react";
+import { Alert, ToastAndroid, View } from "react-native";
 import { ProductParams } from "../../@types/navigation";
 import { Button } from "../../components/Button";
 import { ButtonIcon } from "../../components/ButtonIcon";
 import { Header } from "../../components/Header";
+import { ProductContext } from "../../context/ProductContext";
 import {
   Container,
   Content,
@@ -17,6 +19,7 @@ import {
 } from "./styles";
 
 export function Product() {
+  const { handleDeleteProduct } = useContext(ProductContext);
   const navigation = useNavigation();
   const route = useRoute();
   const product = route.params as ProductParams;
@@ -25,6 +28,34 @@ export function Product() {
 
   function handleGoBack() {
     navigation.goBack();
+  }
+
+  function handleDelete(id: string) {
+    try {
+      handleDeleteProduct(id);
+      navigation.goBack();
+    } catch (error) {
+      ToastAndroid.show(
+        "Não foi possivel excluir produto!",
+        ToastAndroid.SHORT
+      );
+    }
+  }
+
+  async function handleScreenDeleteConfirmation(id: string) {
+    Alert.alert(
+      "Excluir Produto",
+      "Você deseja realmente excluir este produto ?",
+      [
+        {
+          text: "Cancelar",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => handleDelete(id) },
+      ],
+      { cancelable: false }
+    );
   }
 
   return (
@@ -60,7 +91,11 @@ export function Product() {
 
       <ButtonsContainer>
         <Button title="Alterar" />
-        <Button title="Excluir" type="SECONDARY" />
+        <Button
+          title="Excluir"
+          type="SECONDARY"
+          onPress={() => handleScreenDeleteConfirmation(product.id)}
+        />
       </ButtonsContainer>
     </Container>
   );

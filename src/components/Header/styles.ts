@@ -6,7 +6,6 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
   background-color: ${({ theme}) => theme.COLORS.GRAY_600};
 `
 
