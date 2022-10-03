@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function GroupCard({ data }: Props) {
-  const { handleDeleteProduct } = useContext(ProductContext);
+  const { DeleteProduct } = useContext(ProductContext);
   const navigation = useNavigation();
 
   function handleOpenProduct({
@@ -69,7 +69,7 @@ export function GroupCard({ data }: Props) {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => handleDeleteProduct(id) },
+        { text: "OK", onPress: () => DeleteProduct(id) },
       ],
       { cancelable: false }
     );

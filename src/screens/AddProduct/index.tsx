@@ -5,55 +5,70 @@ import {
   Fields,
   HeaderView,
   Text,
+  ErrorText,
 } from "./styles";
 import {
   KeyboardAvoidingView,
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
-  ToastAndroid,
 } from "react-native";
 import { ButtonIcon } from "../../components/ButtonIcon";
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import { api } from "../../services/api";
+import { useContext, useState } from "react";
+
+import { ProductContext } from "../../context/ProductContext";
 
 export function AddProduct() {
+  const { AddProduct } = useContext(ProductContext);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
 
+  const [errorName, setErrorName] = useState("");
+  const [errorPrice, setErrorPrice] = useState("");
+  const [errorDescription, setErrorDescription] = useState("");
+  const [errorQuantity, setErrorQuantity] = useState("");
+
   const navigation = useNavigation();
 
   async function handleAddProduct() {
+    if (name === "") {
+      setErrorName("O campo nome é obrigatório!");
+      return;
+    }
+    if (price === "") {
+      setErrorPrice("O campo preço é obrigatório!");
+      return;
+    }
+    if (description === "") {
+      setErrorDescription("O campo descrição é obrigatório!");
+      return;
+    }
+    if (quantity === "") {
+      setErrorQuantity("O campo quantidade é obrigatório!");
+      return;
+    }
+
     const data = {
       name,
       description,
       price,
       quantity,
     };
-
-    try {
-      let axiosConfig = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await api.post(`/products/add`, data, axiosConfig);
-
-      console.log(response);
-      ToastAndroid.show("Produto Adicionado com sucesso!", ToastAndroid.SHORT);
-      setName("");
-      setPrice("");
-      setDescription("");
-      setQuantity("");
-    } catch (err) {
-      console.log(err);
-    }
+    AddProduct(data);
+    setName("");
+    setErrorName("");
+    setPrice("");
+    setErrorPrice("");
+    setDescription("");
+    setErrorDescription("");
+    setQuantity("");
+    setErrorQuantity("");
   }
 
   function handleGoBack() {
@@ -75,15 +90,26 @@ export function AddProduct() {
             <Fields>
               <Text>Nome</Text>
               <Input value={name} onChangeText={setName} />
-
+              {errorName && <ErrorText>{errorName}</ErrorText>}
               <Text>Preço</Text>
-              <Input value={price} onChangeText={setPrice} />
+              <Input
+                value={price}
+                keyboardType="numeric"
+                onChangeText={setPrice}
+              />
+              {errorPrice && <ErrorText>{errorPrice}</ErrorText>}
 
               <Text>Descrição</Text>
               <Input value={description} onChangeText={setDescription} />
+              {errorDescription && <ErrorText>{errorDescription}</ErrorText>}
 
               <Text>Quantidade</Text>
-              <Input value={quantity} onChangeText={setQuantity} />
+              <Input
+                keyboardType="numeric"
+                value={quantity}
+                onChangeText={setQuantity}
+              />
+              {errorQuantity && <ErrorText>{errorQuantity}</ErrorText>}
             </Fields>
             <ButtonsContainer>
               <Button title="Adicionar" onPress={handleAddProduct} />

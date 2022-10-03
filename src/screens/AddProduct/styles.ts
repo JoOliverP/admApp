@@ -37,3 +37,7 @@ export const ButtonsContainer = styled.View`
    /* margin-bottom : 32px; */
    flex-direction: row;
 `;
+
+export const ErrorText = styled.Text`
+   color: ${({ theme}) => theme.COLORS.RED_DARK};
+`;

@@ -1,3 +1,5 @@
+import "intl";
+import "intl/locale-data/jsonp/en";
 import { StatusBar } from "react-native";
 import { ThemeProvider } from "styled-components";
 import theme from "./src/theme";

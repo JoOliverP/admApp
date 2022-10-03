@@ -19,10 +19,15 @@ import {
 } from "./styles";
 
 export function Product() {
-  const { handleDeleteProduct } = useContext(ProductContext);
+  const { DeleteProduct } = useContext(ProductContext);
   const navigation = useNavigation();
   const route = useRoute();
   const product = route.params as ProductParams;
+
+  const formatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
 
   // console.log(product);
 
@@ -32,7 +37,7 @@ export function Product() {
 
   function handleDelete(id: string) {
     try {
-      handleDeleteProduct(id);
+      DeleteProduct(id);
       navigation.goBack();
     } catch (error) {
       ToastAndroid.show(
@@ -89,7 +94,7 @@ export function Product() {
 
         <ContentInfo>
           <Title>{product.title}</Title>
-          <TextProduct>R$ {product.price}</TextProduct>
+          <TextProduct>{formatter.format(Number(product.price))}</TextProduct>
           <TextProduct>Qtde: {product.stock} unidades</TextProduct>
         </ContentInfo>
       </Content>
@@ -100,8 +105,8 @@ export function Product() {
           justifyContent: "space-between",
         }}
       >
-        <TextProduct>Desconto: {product.discountPercentage} </TextProduct>
-        <TextProduct>Avaliação: {product.rating} </TextProduct>
+        <TextProduct>Desconto: {product.discountPercentage}%</TextProduct>
+        <TextProduct>⭐ Avaliação: {product.rating} </TextProduct>
       </View>
       <Description>{product.description}</Description>
 

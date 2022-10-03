@@ -1,11 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { FlatList } from "react-native";
 import { Button } from "../../components/Button";
 import { GroupCard } from "../../components/GroupCard";
 import { Header } from "../../components/Header";
 import { ProductContext } from "../../context/ProductContext";
-import { api } from "../../services/api";
+
 import { Container } from "./styles";
 
 export function Home() {

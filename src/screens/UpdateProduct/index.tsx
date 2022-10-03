@@ -11,18 +11,18 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
-  ToastAndroid,
 } from "react-native";
 import { ButtonIcon } from "../../components/ButtonIcon";
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useState } from "react";
-import { api } from "../../services/api";
+import { useContext, useState } from "react";
 import { UpdateProductParams } from "../../@types/navigation";
+import { ProductContext } from "../../context/ProductContext";
 
 export function UpdateProduct() {
+  const { UpdateProduct } = useContext(ProductContext);
   const route = useRoute();
   const product = route.params as UpdateProductParams;
 
@@ -33,31 +33,15 @@ export function UpdateProduct() {
 
   const navigation = useNavigation();
 
-  async function handleUpdateProduct() {
+  async function HandleUpdateProduct() {
     const data = {
       name,
       description,
       price,
       quantity,
     };
-
-    try {
-      let axiosConfig = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await api.put(
-        `/products/${product.id}`,
-        data,
-        axiosConfig
-      );
-
-      ToastAndroid.show("Produto Alterado com sucesso!", ToastAndroid.SHORT);
-      navigation.goBack();
-    } catch (err) {
-      console.log(err);
-    }
+    UpdateProduct(product.id, data);
+    navigation.goBack();
   }
 
   function handleGoBack() {
@@ -90,7 +74,7 @@ export function UpdateProduct() {
               <Input value={quantity} onChangeText={setQuantity} />
             </Fields>
             <ButtonsContainer>
-              <Button title="Adicionar" onPress={handleUpdateProduct} />
+              <Button title="Adicionar" onPress={HandleUpdateProduct} />
               <Button
                 title="Cancelar"
                 type="SECONDARY"

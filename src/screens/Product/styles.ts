@@ -36,13 +36,13 @@ export const ImageProduct = styled.Image`
 export const Title = styled.Text` 
   width: 200px;
   flex-wrap: wrap;
-  color: ${({ theme}) => theme.COLORS.GRAY_100};
+  color: ${({ theme}) => theme.COLORS.GREEN_500};
   font-family: ${({ theme}) => theme.FONT_FAMILY.BOLD};
   font-size: ${({ theme}) => theme.FONT_SIZE.XL}px;
 `;
 
 export const TextProduct = styled.Text`
-  color: ${({ theme}) => theme.COLORS.GRAY_100};
+  color: ${({ theme}) => theme.COLORS.GRAY_200};
   font-family: ${({ theme}) => theme.FONT_FAMILY.REGULAR};
   font-size: ${({ theme}) => theme.FONT_SIZE.MD}px; 
 `;
