@@ -1,10 +1,17 @@
 {
   "expo": {
     "name": "admApp",
-    "slug": "admApp",
+    "slug": "admapp",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#202024"
+    
+    }
   }
+ 
 }
