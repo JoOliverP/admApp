@@ -6,8 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Product, ProductContext } from "../../context/ProductContext";
 
 import { ProductParams, UpdateProductParams } from "../../@types/navigation";
-import { Alert, ToastAndroid } from "react-native";
-import axios from "axios";
+import { Alert } from "react-native";
 
 type Props = {
   data: Product;

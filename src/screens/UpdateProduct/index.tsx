@@ -40,6 +40,7 @@ export function UpdateProduct() {
       price,
       quantity,
     };
+
     UpdateProduct(product.id, data);
     navigation.goBack();
   }
@@ -74,7 +75,7 @@ export function UpdateProduct() {
               <Input value={quantity} onChangeText={setQuantity} />
             </Fields>
             <ButtonsContainer>
-              <Button title="Adicionar" onPress={HandleUpdateProduct} />
+              <Button title="Atualizar" onPress={HandleUpdateProduct} />
               <Button
                 title="Cancelar"
                 type="SECONDARY"

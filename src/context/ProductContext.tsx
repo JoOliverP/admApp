@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { ToastAndroid } from "react-native";
+
+import Toast from "react-native-simple-toast";
 import { api } from "../services/api";
 interface ProductsContextProviderProps {
   children: ReactNode;
@@ -23,6 +24,7 @@ interface ProductsContextType {
   DeleteProduct: (id: string) => void;
   AddProduct: (data: {}) => void;
   UpdateProduct: (id: string, data: {}) => void;
+  idsProduct: String[];
 }
 
 export const ProductContext = createContext({} as ProductsContextType);
@@ -31,11 +33,22 @@ export function CadidatesContextProvider({
   children,
 }: ProductsContextProviderProps) {
   const [productsData, setProductsData] = useState<Product[]>([]);
+  const [idsProduct, setIdsProduct] = useState<String[]>([]);
 
   async function fetchProducts() {
     try {
       const response = await api.get("/products");
-      setProductsData(response.data.products);
+
+      let filteredResponse: Product[] = [];
+
+      response.data.products.map((product: Product) => {
+        if (!idsProduct.includes(product.id)) {
+          filteredResponse.push(product);
+        }
+      });
+      // console.log(filteredResponse);
+
+      setProductsData(filteredResponse);
     } catch (error) {
       console.log(error);
     }
@@ -46,14 +59,14 @@ export function CadidatesContextProvider({
       const headers = {
         method: "DELETE",
       };
-      await api.delete(`/products/${id}`, headers);
-      ToastAndroid.show("Produto excluído com sucesso!", ToastAndroid.SHORT);
+      const response = await api.delete(`/products/${id}`, headers);
+      // ToastAndroid.show("Produto excluído com sucesso!", ToastAndroid.SHORT);
+      Toast.show("O produto foi excluído.");
+      setIdsProduct([...idsProduct, id]);
       // console.log(response.data);
     } catch (err) {
-      ToastAndroid.show(
-        "Não foi possível excluir produto!",
-        ToastAndroid.SHORT
-      );
+      Toast.show("Não foi possível excluir produto!");
+
       console.log(err);
     }
   }
@@ -68,13 +81,10 @@ export function CadidatesContextProvider({
       await api.post(`/products/add`, data, axiosConfig);
 
       // console.log(response);
-      ToastAndroid.show("Produto Adicionado com sucesso!", ToastAndroid.SHORT);
+      Toast.show("Produto Adicionado com sucesso!");
     } catch (err) {
       console.log(err);
-      ToastAndroid.show(
-        "Não foi possível adicionar produto!",
-        ToastAndroid.SHORT
-      );
+      Toast.show("Não foi possível adicionar produto!");
     }
   }
 
@@ -85,21 +95,19 @@ export function CadidatesContextProvider({
           "Content-Type": "application/json",
         },
       };
+
       await api.put(`/products/${id}`, data, axiosConfig);
 
-      ToastAndroid.show("Produto Alterado com sucesso!", ToastAndroid.SHORT);
+      Toast.show("Produto Alterado com sucesso!");
     } catch (err) {
       console.log(err);
-      ToastAndroid.show(
-        "Não foi possível Alterar produto!",
-        ToastAndroid.SHORT
-      );
+      Toast.show("Não foi possível Alterar produto!");
     }
   }
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [idsProduct]);
   // console.log(productsData);
   return (
     <ProductContext.Provider
@@ -108,6 +116,7 @@ export function CadidatesContextProvider({
         DeleteProduct,
         AddProduct,
         UpdateProduct,
+        idsProduct,
       }}
     >
       {children}

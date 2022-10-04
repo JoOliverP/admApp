@@ -19,6 +19,7 @@ export function Home() {
   return (
     <Container>
       <Header title="Produtos" />
+
       <FlatList
         data={productsData}
         keyExtractor={(item) => item.id}

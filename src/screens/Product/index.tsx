@@ -1,5 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useContext } from "react";
+import Toast from "react-native-simple-toast";
 import { Alert, ToastAndroid, View } from "react-native";
 import { ProductParams, UpdateProductParams } from "../../@types/navigation";
 import { Button } from "../../components/Button";
@@ -40,10 +41,8 @@ export function Product() {
       DeleteProduct(id);
       navigation.goBack();
     } catch (error) {
-      ToastAndroid.show(
-        "Não foi possivel excluir produto!",
-        ToastAndroid.SHORT
-      );
+      Toast.show("Não foi possivel excluir produto!");
+      console.log(error);
     }
   }
 

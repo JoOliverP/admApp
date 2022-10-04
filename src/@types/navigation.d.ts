@@ -12,7 +12,7 @@ export interface ProductParams {
  }
 
  export interface UpdateProductParams {
-   id: string
+   id: string;
    title: string;
    description: string;
    price: string;
