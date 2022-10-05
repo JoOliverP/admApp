@@ -14,7 +14,7 @@ import {
 import { Routes } from "./src/routes";
 import { Loading } from "./src/components/Loading";
 
-import { CadidatesContextProvider } from "./src/context/ProductContext";
+import { ProductContextProvider } from "./src/context/ProductContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -31,9 +31,9 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      <CadidatesContextProvider>
+      <ProductContextProvider>
         {fontsLoaded ? <Routes /> : <Loading />}
-      </CadidatesContextProvider>
+      </ProductContextProvider>
     </ThemeProvider>
   );
 }

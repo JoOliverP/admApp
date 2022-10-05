@@ -29,7 +29,7 @@ interface ProductsContextType {
 
 export const ProductContext = createContext({} as ProductsContextType);
 
-export function CadidatesContextProvider({
+export function ProductContextProvider({
   children,
 }: ProductsContextProviderProps) {
   const [productsData, setProductsData] = useState<Product[]>([]);
